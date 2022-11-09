@@ -26,14 +26,69 @@ function playRound(playerSelection, computerSelection){
     }else if(playerSelection.toUpperCase() == "SCISSORS" && computerSelection == "Rock"){
         return "You Lose! Rock beats Scissors."
     };
-}
-function game(){
-    for(let i =0;i<5;i++){
-        let playerSelection = prompt("Rock, Paper, Scissors?");
-        let computerSelection = getComputerChoice();
-        let result = playRound(playerSelection, computerSelection);
-       console.log("Round " +(i+1)+ " results: " + result );
-    }
-}
+};
 
-game();
+
+//need a funciton that when run gives me the up to date scores, 
+//but after its been run 5 times it resets.
+
+
+const lastMatch= document.getElementById('lastMatch');
+const runScore = document.getElementById("runScore");
+const results = document.getElementById("results");
+const btnList = document.querySelectorAll('#btn');//to access what button is clicked
+let playerScore=0;
+let computerScore=0;
+let roundsPlayed =0;
+results.innerHTML = "Results";
+
+btnList.forEach(function(btn){
+    btn.addEventListener('click', function(){
+            let playerSelection = btn.innerHTML;
+            let computerSelection = getComputerChoice();
+            let result = playRound(playerSelection, computerSelection);
+            
+            lastMatch.innerHTML = "Round Results: "+ result;
+
+            
+
+                if (result == "You Win! Rock beats Scissors" ||
+                    result == "You Win! Paper beats Rock." ||
+                    result == "You Win! Scissors beats Paper."
+                ){
+                    playerScore++;
+                    roundsPlayed++;
+                    runScore.innerHTML = "Player: " + playerScore + " Computer: " +computerScore;
+                }else if(result == "You Lose! Rock beats Scissors." ||
+                         result == "You Lose! Scissors beats Paper." ||
+                         result == "You Lose! Paper beats Rock."
+                ){
+                    computerScore++;
+                    roundsPlayed++;
+                    runScore.innerHTML = "Player: " + playerScore + " Computer: " +computerScore;
+                }else if(result == "Tie!"){
+                    roundsPlayed++;
+                    runScore.innerHTML = "Player: " + playerScore + " Computer: " +computerScore;
+                };      
+
+                if (playerScore > computerScore && roundsPlayed==5){
+                        results.innerHTML = "Congrats, You Win!!!!!!!!!"
+                        playerScore=0;
+                        computerScore=0
+                        roundsPlayed=0;
+                    } else if (computerScore>playerScore && roundsPlayed==5){
+                        results.innerHTML = "Computer Wins! You lose!!"
+                        playerScore=0;
+                        computerScore=0
+                        roundsPlayed=0;
+                    }else if (computerScore==playerScore && roundsPlayed==5){
+                        roundsPlayed--;
+                    };
+
+        });
+
+});
+
+
+
+
