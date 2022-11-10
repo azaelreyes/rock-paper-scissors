@@ -29,60 +29,61 @@ function playRound(playerSelection, computerSelection){
 };
 
 
-//need a funciton that when run gives me the up to date scores, 
-//but after its been run 5 times it resets.
 
 
 const lastMatch= document.getElementById('lastMatch');
 const runScore = document.getElementById("runScore");
 const results = document.getElementById("results");
 const btnList = document.querySelectorAll('#btn');//to access what button is clicked
-let playerScore=0;
+let playerScore = 0;
 let computerScore=0;
 let roundsPlayed =0;
-results.innerHTML = "Results";
+
 
 btnList.forEach(function(btn){
     btn.addEventListener('click', function(){
             let playerSelection = btn.innerHTML;
+            
             let computerSelection = getComputerChoice();
+            console.log(playerSelection + " Clicked, Computer Selected: "+computerSelection);
             let result = playRound(playerSelection, computerSelection);
             
             lastMatch.innerHTML = "Round Results: "+ result;
 
-            
-
-                if (result == "You Win! Rock beats Scissors" ||
-                    result == "You Win! Paper beats Rock." ||
-                    result == "You Win! Scissors beats Paper."
-                ){
+                if (result == "You Win! Rock beats Scissors." || result == "You Win! Paper beats Rock." || result == "You Win! Scissors beats Paper." ){
+                   
                     playerScore++;
                     roundsPlayed++;
-                    runScore.innerHTML = "Player: " + playerScore + " Computer: " +computerScore;
-                }else if(result == "You Lose! Rock beats Scissors." ||
-                         result == "You Lose! Scissors beats Paper." ||
-                         result == "You Lose! Paper beats Rock."
-                ){
+                    console.log("PlayerScore: "+ playerScore +" rounds: "+ roundsPlayed);
+
+                }else if(result == "You Lose! Rock beats Scissors." || result == "You Lose! Scissors beats Paper." || result == "You Lose! Paper beats Rock." ){
+                    
+                    roundsPlayed++;
                     computerScore++;
-                    roundsPlayed++;
-                    runScore.innerHTML = "Player: " + playerScore + " Computer: " +computerScore;
+                    console.log("Computer Score: "+ computerScore+" rounds: "+ roundsPlayed);
+
                 }else if(result == "Tie!"){
+                    
                     roundsPlayed++;
-                    runScore.innerHTML = "Player: " + playerScore + " Computer: " +computerScore;
-                };      
+                    console.log("Tie, rounds: "+ roundsPlayed);
+                };    
+                
+                runScore.innerHTML = "Player: " + playerScore + " Computer: " +computerScore;
 
                 if (playerScore > computerScore && roundsPlayed==5){
                         results.innerHTML = "Congrats, You Win!!!!!!!!!"
                         playerScore=0;
                         computerScore=0
                         roundsPlayed=0;
+                        
                     } else if (computerScore>playerScore && roundsPlayed==5){
                         results.innerHTML = "Computer Wins! You lose!!"
                         playerScore=0;
                         computerScore=0
                         roundsPlayed=0;
-                    }else if (computerScore==playerScore && roundsPlayed==5){
-                        roundsPlayed--;
+                        
+                    }else{
+                        results.innerHTML = "Results";
                     };
 
         });
